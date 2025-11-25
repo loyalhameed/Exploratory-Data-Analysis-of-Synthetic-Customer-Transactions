@@ -1,6 +1,6 @@
 # Report
 
-This project performs an exploratory analysis on a synthetic set of customer transactions. The data includes age, purchase amount, and purchase date. A total of 600 rows were generated to allow basic distribution and trend observation.
+This project performs an exploratory analysis on a synthetic set of customer transactions. The data includes age, purchase amount, and purchase date. A total of 500 rows were generated to allow basic distribution and trend observation.
 
 The inspection confirms that the dataset has no missing values and contains the correct data types for each variable. Transaction dates span a realistic range within the past year.
 
