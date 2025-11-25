@@ -73,9 +73,6 @@ print(f"Standard Deviation: {purchase_std:.2f}")
 print("Quartiles:")
 print(purchase_quartiles)
 
-correlation = df_transactions['CustomerAge'].corr(df_transactions['PurchaseAmount'])
-print(f"Pearson's Correlation Coefficient between CustomerAge and PurchaseAmount: {correlation:.2f}")
-
 # Generate and save histogram for PurchaseAmount
 plt.figure(figsize=(10, 6))
 plt.hist(df_transactions['PurchaseAmount'], bins=30, edgecolor='black')
@@ -125,4 +122,5 @@ with open(stats_filepath, 'w') as f:
     f.write(descriptive_stats_text)
 
 print(f"Saved descriptive statistics to {stats_filepath}") 
+
 
