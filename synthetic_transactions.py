@@ -5,7 +5,7 @@
 
 #!/usr/bin/env python3
 """
-eda_of_synthetic_customer_transactions_data.py
+synthetic_transactions.py
 Self-contained EDA for synthetic customer transactions.
 
 Produces:
