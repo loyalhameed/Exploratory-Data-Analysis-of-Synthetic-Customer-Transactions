@@ -120,4 +120,9 @@ Quartiles:
 stats_filepath = os.path.join(output_dir, 'descriptive_statistics.txt')
 with open(stats_filepath, 'w') as f:
     f.write(descriptive_stats_text)
-print(f"Saved descriptive statistics to {stats_filepath}")
+
+print(f"Saved descriptive statistics to {stats_filepath}") 
+
+
+correlation = df_transactions['CustomerAge'].corr(df_transactions['PurchaseAmount'])
+print(f"Pearson's Correlation Coefficient between CustomerAge and PurchaseAmount: {correlation:.2f}")
