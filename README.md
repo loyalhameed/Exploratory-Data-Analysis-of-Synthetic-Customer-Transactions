@@ -13,4 +13,4 @@ This project completes the EDA tasks. The goal is to generate a synthetic datase
 
 # How to Run
 pip install -r requirements.txt
-python src/eda_synthetic_customer_transactions_data.py
+python src/synthetic_transactions.py
