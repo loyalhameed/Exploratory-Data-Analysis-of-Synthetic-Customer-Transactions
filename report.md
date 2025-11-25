@@ -53,18 +53,11 @@ The mean and median purchase amounts are very close, suggesting a symmetric dist
 
 ### Purchase Amount Histogram
 
-<img width="841" height="547" alt="image" src="https://github.com/user-attachments/assets/33fac183-d971-4758-9363-db3a427f8bdb" />
-
-
 The histogram for `PurchaseAmount` shows a relatively uniform distribution across the range, confirming that there isn't a strong peak at specific price points for this synthetic dataset.
 
 The histogram of purchase amount highlights the skew by showing a large concentration of lower value transactions. The scatter plot comparing customer age and purchase amount does not show a visible pattern. No strong relationship between age and spending behavior is observed in this dataset.
 
-
 ### CustomerAge vs. PurchaseAmount Scatter Plot
-
-<img width="850" height="547" alt="image" src="https://github.com/user-attachments/assets/7a4317ba-ecb6-435f-99a3-d232f30c89b7" />
-
 
 The scatter plot of `CustomerAge` against `PurchaseAmount` does not reveal any obvious linear correlation or strong trends. Purchase amounts appear to be randomly distributed across all age groups from 18 to 70, suggesting that in this synthetic dataset, age does not significantly influence the amount spent per transaction.
 
