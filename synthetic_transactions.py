@@ -1,142 +1,75 @@
-# -*- coding: utf-8 -*-
-"""EDA of Synthetic Customer Transactions Data.ipynb
-
-"""
-
-#!/usr/bin/env python3
-"""
-synthetic_transactions.py
-Self-contained EDA for synthetic customer transactions.
-
-Produces:
-- data/synthetic_transactions.csv (if not present)
-- outputs/inspection.csv
-- outputs/descriptive_stats.csv
-- outputs/summary.txt
-- outputs/figures/hist_purchase_amount.png
-- outputs/figures/scatter_age_purchase.png
-
-Usage:
-    pip install -r requirements.txt
-    python eda_of_synthetic_customer_transactions_data.py
-"""
-import os
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import numpy as np
 from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
 
-BASE = os.getcwd()
-DATA_DIR = os.path.join(BASE, "data")
-OUT_DIR = os.path.join(BASE, "outputs")
-FIG_DIR = os.path.join(OUT_DIR, "figures")
-os.makedirs(DATA_DIR, exist_ok=True)
-os.makedirs(FIG_DIR, exist_ok=True)
+# Set a random seed for reproducibility
+np.random.seed(42)
 
-CSV_PATH = os.path.join(DATA_DIR, "synthetic_transactions.csv")
+# Define the number of transactions
+num_transactions = 500
 
-def generate_dataset(n=500, seed=42):
-    """Generate synthetic dataset and save to CSV."""
-    np.random.seed(seed)
-    transaction_ids = [f"T{100000+i}" for i in range(n)]
-    ages = np.random.randint(18, 80, size=n)
-    # Purchase amount: exponential-like with noise, then clamp
-    purchase_amount = np.round(np.random.exponential(scale=80, size=n) + np.random.normal(0,10,size=n), 2)
-    purchase_amount = np.clip(purchase_amount, 10, 1000)
-    # random dates within last 365 days
-    end = pd.to_datetime("today")
-    start = end - pd.Timedelta(days=365)
-    timestamps = np.random.randint(int(start.value//10**9), int(end.value//10**9), size=n)
-    dates = pd.to_datetime(timestamps, unit='s')
-    df = pd.DataFrame({
-        "TransactionID": transaction_ids,
-        "CustomerAge": ages,
-        "PurchaseAmount": purchase_amount,
-        "TransactionDate": dates
-    })
-    df = df.sample(frac=1, random_state=1).reset_index(drop=True)
-    df.to_csv(CSV_PATH, index=False)
-    return df
+# Create a list of TransactionIDs
+transaction_ids = np.arange(1, num_transactions + 1)
 
-def load_dataset():
-    if not os.path.exists(CSV_PATH):
-        print("Dataset not found. Generating synthetic dataset (500 rows).")
-        return generate_dataset(n=500)
-    else:
-        return pd.read_csv(CSV_PATH, parse_dates=["TransactionDate"])
+# Generate a list of random CustomerAge values (18-70)
+customer_age = np.random.randint(18, 71, num_transactions)
 
-def initial_inspection(df):
-    dtypes = df.dtypes.to_frame("dtype")
-    dtypes["nulls"] = df.isnull().sum().values
-    dtypes["n_unique"] = df.nunique().values
-    dtypes.to_csv(os.path.join(OUT_DIR, "inspection.csv"))
-    return dtypes
+# Generate a list of random PurchaseAmount values ($10-$500)
+purchase_amount = np.round(np.random.uniform(10, 500, num_transactions), 2)
 
-def descriptive_statistics(df):
-    desc = df[["CustomerAge","PurchaseAmount"]].describe().T
-    desc["iqr"] = desc["75%"] - desc["25%"]
-    desc.to_csv(os.path.join(OUT_DIR, "descriptive_stats.csv"))
-    return desc
+# Generate a list of random TransactionDate values (within the last year)
+end_date = datetime.now()
+start_date = end_date - timedelta(days=365)
 
-def textual_summary(df, max_chars=250):
-    lines = []
-    lines.append(f"Total transactions: {len(df)}")
-    lines.append(f"Date range: {df.TransactionDate.min().date()} to {df.TransactionDate.max().date()}")
-    lines.append("CustomerAge - mean, median, std: " + ", ".join([f"{x:.2f}" for x in [df.CustomerAge.mean(), df.CustomerAge.median(), df.CustomerAge.std()]]))
-    lines.append("PurchaseAmount - mean, median, std: " + ", ".join([f"{x:.2f}" for x in [df.PurchaseAmount.mean(), df.PurchaseAmount.median(), df.PurchaseAmount.std()]]))
-    summary = " | ".join(lines)
-    with open(os.path.join(OUT_DIR, "summary.txt"), "w") as f:
-        f.write(summary[:max_chars])
-    return summary
+transaction_dates = [
+    end_date - timedelta(days=np.random.randint(0, 366))
+    for _ in range(num_transactions)
+]
 
-def create_visualizations(df):
-    # Histogram of PurchaseAmount
-    plt.figure()
-    plt.hist(df.PurchaseAmount, bins=40)
-    plt.title("Distribution of PurchaseAmount")
-    plt.xlabel("PurchaseAmount")
-    plt.ylabel("Frequency")
-    plt.tight_layout()
-    hist_path = os.path.join(FIG_DIR, "hist_purchase_amount.png")
-    plt.savefig(hist_path)
-    plt.close()
+# Combine these lists into a pandas DataFrame
+df_transactions = pd.DataFrame({
+    'TransactionID': transaction_ids,
+    'CustomerAge': customer_age,
+    'PurchaseAmount': purchase_amount,
+    'TransactionDate': transaction_dates
+})
 
-    # Scatter: CustomerAge vs PurchaseAmount
-    plt.figure()
-    plt.scatter(df.CustomerAge, df.PurchaseAmount, s=10)
-    plt.title("CustomerAge vs PurchaseAmount")
-    plt.xlabel("CustomerAge")
-    plt.ylabel("PurchaseAmount")
-    plt.tight_layout()
-    scatter_path = os.path.join(FIG_DIR, "scatter_age_purchase.png")
-    plt.savefig(scatter_path)
-    plt.close()
-    return hist_path, scatter_path
+print("Synthetic dataset generated successfully:")
+print(df_transactions.head())
+print(f"\nDataFrame shape: {df_transactions.shape}")
 
-def main():
-    df = load_dataset()
-    print("Rows:", len(df))
-    print("Date range:", df.TransactionDate.min().date(), "to", df.TransactionDate.max().date())
+print("\nFirst 5 rows of the dataset:")
+print(df_transactions.head())
 
-    inspection = initial_inspection(df)
-    print("Inspection saved (outputs/inspection.csv)")
+print("\nConcise summary of the dataset:")
+df_transactions.info()
 
-    desc = descriptive_statistics(df)
-    print("Descriptive stats saved (outputs/descriptive_stats.csv)")
+print("\nMissing values per column:")
+print(df_transactions.isnull().sum())
 
-    summary = textual_summary(df)
-    print("Text summary saved (outputs/summary.txt)")
-    hist_path, scatter_path = create_visualizations(df)
-    print("Figures saved:", hist_path, scatter_path)
-    print("EDA complete. Check the outputs/ directory for deliverables.")
+print("\nDescriptive statistics for CustomerAge:")
+print(df_transactions['CustomerAge'].describe())
 
-if __name__ == "__main__":
-    main()
+print("\nDescriptive statistics for PurchaseAmount:")
+print(f"Mean: {df_transactions['PurchaseAmount'].mean():.2f}")
+print(f"Median: {df_transactions['PurchaseAmount'].median():.2f}")
+print(f"Standard Deviation: {df_transactions['PurchaseAmount'].std():.2f}")
+print("Quartiles:")
+print(df_transactions['PurchaseAmount'].quantile([0.25, 0.5, 0.75]))
 
-from IPython.display import Image
-hist_path = "/content/outputs/figures/hist_purchase_amount.png"
-display(Image(filename=hist_path))
+plt.figure(figsize=(10, 6))
+plt.hist(df_transactions['PurchaseAmount'], bins=30, edgecolor='black')
+plt.title('Distribution of Purchase Amount')
+plt.xlabel('Purchase Amount ($)')
+plt.ylabel('Frequency')
+plt.grid(axis='y', alpha=0.75)
+plt.show()
 
-from IPython.display import Image
-scatter_path = "/content/outputs/figures/scatter_age_purchase.png"
-display(Image(filename=scatter_path))
+plt.figure(figsize=(10, 6))
+plt.scatter(df_transactions['CustomerAge'], df_transactions['PurchaseAmount'], alpha=0.6)
+plt.title('Customer Age vs. Purchase Amount')
+plt.xlabel('Customer Age')
+plt.ylabel('Purchase Amount ($)')
+plt.grid(True)
+plt.show()
