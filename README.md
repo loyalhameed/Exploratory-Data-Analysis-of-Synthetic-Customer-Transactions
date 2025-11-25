@@ -11,6 +11,6 @@ This project completes the EDA tasks. The goal is to generate a synthetic datase
    - Scatter plot of CustomerAge vs PurchaseAmount
 5. Write a short summary of findings under 250 characters.
 
-# How to Run
+## How to Run
 pip install -r requirements.txt
-python src/synthetic_transactions.py
+python src/eda_synthetic_customer_transactions_data.py
