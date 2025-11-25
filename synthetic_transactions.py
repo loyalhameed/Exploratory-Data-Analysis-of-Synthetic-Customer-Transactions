@@ -35,7 +35,7 @@ os.makedirs(FIG_DIR, exist_ok=True)
 
 CSV_PATH = os.path.join(DATA_DIR, "synthetic_transactions.csv")
 
-def generate_dataset(n=1000, seed=42):
+def generate_dataset(n=500, seed=42):
     """Generate synthetic dataset and save to CSV."""
     np.random.seed(seed)
     transaction_ids = [f"T{100000+i}" for i in range(n)]
@@ -60,8 +60,8 @@ def generate_dataset(n=1000, seed=42):
 
 def load_dataset():
     if not os.path.exists(CSV_PATH):
-        print("Dataset not found. Generating synthetic dataset (1000 rows).")
-        return generate_dataset(n=1000)
+        print("Dataset not found. Generating synthetic dataset (500 rows).")
+        return generate_dataset(n=500)
     else:
         return pd.read_csv(CSV_PATH, parse_dates=["TransactionDate"])
 
