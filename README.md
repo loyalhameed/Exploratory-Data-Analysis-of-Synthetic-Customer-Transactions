@@ -12,7 +12,7 @@ This project completes the EDA tasks. The goal is to generate a synthetic datase
 5. Write a short summary of findings under 250 characters.
 
 # Summary:
-Q&A
+1.Q&A
 What are the computed numeric descriptive statistics for 'CustomerAge' and 'PurchaseAmount'?
 CustomerAge: Count: 500, Mean: 44.73, Standard Deviation: 15.24, Minimum: 18.00, 25th Percentile: 32.00, Median (50th Percentile): 45.00, 75th Percentile: 57.00, Maximum: 70.00.
 PurchaseAmount: Mean: $255.47, Median: $257.12, Standard Deviation: $144.01, 25th Percentile: $128.80, 50th Percentile: $257.12, 75th Percentile: $379.80.
