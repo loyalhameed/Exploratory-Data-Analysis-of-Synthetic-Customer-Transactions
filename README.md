@@ -10,5 +10,3 @@ This project completes the EDA tasks. The goal is to generate a synthetic datase
    - Histogram of PurchaseAmount
    - Scatter plot of CustomerAge vs PurchaseAmount
 5. Write a short summary of findings under 250 characters.
-
-## How to Run
