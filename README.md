@@ -1,19 +1,14 @@
-# Full EDA Project
-# Complete project structure.
 # Exploratory Data Analysis of Synthetic Customer Transactions
 
-This repository contains a complete assessment-ready EDA project for synthetic customer transactions.
+This project completes the EDA tasks. The goal is to generate a synthetic dataset, run initial inspection, compute descriptive statistics, and create two required plots.
 
-## Contents
-- `data/synthetic_transactions.csv` — generated dataset (1000 records).
-- `eda.py` — self-contained script that performs inspection, statistics, and creates two plots.
-- `notebook.ipynb` — simple notebook for interactive review.
-- `report.md` — concise report and interpretation (<=250 words).
-- `outputs/` — generated outputs after running `eda.py`.
+## Project Tasks
+1. Generate a synthetic dataset of customer transactions.
+2. Perform initial inspection of data types, missing values, and unique counts.
+3. Produce descriptive statistics for numerical fields.
+4. Create two plots:
+   - Histogram of PurchaseAmount
+   - Scatter plot of CustomerAge vs PurchaseAmount
+5. Write a short summary of findings under 250 characters.
 
-## How to run
-```bash
-python -m venv venv
-source venv/bin/activate   # Windows: venv\\Scripts\\activate
-pip install -r requirements.txt
-python eda.py
+## How to Run
